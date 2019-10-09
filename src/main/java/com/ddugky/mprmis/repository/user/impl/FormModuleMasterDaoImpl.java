@@ -19,6 +19,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ddugky.mprmis.bean.master.FormModuleMasterBean;
@@ -36,25 +37,11 @@ public class FormModuleMasterDaoImpl implements FormModuleMasterDao {
 	public List<FormModuleMasterBean> getAllMasterModuleList() {
 		// TODO Auto-generated method stub
 		List<FormModuleMasterBean> list=new ArrayList<FormModuleMasterBean>();
-		//CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		Session session = entityManager.unwrap(Session.class);
 		try {
 			
 			Criteria criteria = session.createCriteria(FormModuleMaster.class)
 				.add(Restrictions.disjunction().add(Restrictions.isNull("moduleName")).add(Restrictions.eq("moduleName", "")).add(Restrictions.eq("moduleName", "0")));
-			/*CriteriaQuery<FormModuleMaster> cq = cb.createQuery(FormModuleMaster.class);
-			Root<FormModuleMaster> root = cq.from(FormModuleMaster.class);
-			List<Predicate> predicates = new ArrayList<>();
-			String[] moduleName = {null, "", "0"};
-			cq.select(root).where(root.get("moduleName").in(moduleName));
-			TypedQuery<FormModuleMaster> query = entityManager.createQuery(cq);
-			System.out.println(query.getResultList().size());
-			for(Object o : query.getResultList()) {
-	        	FormModuleMaster ob=(FormModuleMaster)o;
-	        	FormModuleMasterBean ob1=new FormModuleMasterBean();
-	        	BeanUtils.copyProperties(ob1,ob);
-			    list.add(ob1);
-			}*/
 			BeanUtilsBean.getInstance().getConvertUtils().register(false, false, 0);
 			for(Object o : criteria.list()) {
             	FormModuleMaster ob=(FormModuleMaster)o;

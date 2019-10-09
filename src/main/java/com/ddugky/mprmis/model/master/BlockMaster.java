@@ -35,7 +35,7 @@ public class BlockMaster implements Serializable {
 	private String blockName;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "district_id")
+	@JoinColumn(name = "districtid")
 	private MstDistrict districtId;
 	
 	@Column

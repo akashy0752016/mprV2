@@ -1,6 +1,7 @@
 package com.ddugky.mprmis.config.security;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,12 +13,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.ddugky.mprmis.bean.master.AccessModuleListForUserAndMenuBean;
-import com.ddugky.mprmis.repository.user.AssignRoleMasterDao;
+import com.ddugky.mprmis.model.projectSetup.ProjectDetails;
+import com.ddugky.mprmis.service.LoginService;
 
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	
 	@Autowired
-	AssignRoleMasterDao assignRoleMasterDao;
+	private LoginService loginService;
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -25,8 +27,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(false);
 		CustomUserDetails customUserDetails = (CustomUserDetails)authentication.getPrincipal();
-		AccessModuleListForUserAndMenuBean moduleList = assignRoleMasterDao.getAccessModuleListForMenu(customUserDetails.getUserMaster());
-		session.setAttribute("moduleList", moduleList);
+		AccessModuleListForUserAndMenuBean moduleList = loginService.getAccessModuleListForMenu(customUserDetails.getUserMaster());
+		List<ProjectDetails> assignProjectList=loginService.getAssignProjectList(customUserDetails.getUserMaster());
+		session.setAttribute("assignProjectDetails",assignProjectList);
+		session.setAttribute("userBeanData", moduleList);
 		response.sendRedirect("./dashboard");
 	}
 

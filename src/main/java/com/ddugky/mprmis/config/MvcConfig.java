@@ -16,7 +16,7 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 @EnableAutoConfiguration
 @EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
-
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// TODO Auto-generated method stub
@@ -46,4 +46,5 @@ public class MvcConfig implements WebMvcConfigurer {
         TilesViewResolver viewResolver = new TilesViewResolver();
         registry.viewResolver(viewResolver);
     }
+	
 }
